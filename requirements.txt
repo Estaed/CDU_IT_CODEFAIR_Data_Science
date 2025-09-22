@@ -1,0 +1,36 @@
+# Dark Sky Explorer NT - Python Dependencies
+
+# Core data analysis
+pandas>=1.5.0
+numpy>=1.21.0
+
+# Visualization
+matplotlib>=3.5.0
+seaborn>=0.11.0
+plotly>=5.10.0
+folium>=0.12.0
+
+# Text processing and sentiment analysis
+nltk>=3.7
+textblob>=0.17.0
+scikit-learn>=1.1.0
+wordcloud>=1.8.0
+
+# Geospatial analysis
+geopy>=2.2.0
+
+# API and web scraping
+requests>=2.28.0
+beautifulsoup4>=4.11.0
+selenium>=4.5.0
+
+# Jupyter notebook
+jupyter>=1.0.0
+ipykernel>=6.15.0
+
+# Optional: Advanced NLP
+# transformers>=4.20.0
+# torch>=1.12.0
+
+# Data collection helpers
+python-dotenv>=0.19.0
