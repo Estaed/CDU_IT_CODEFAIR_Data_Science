@@ -3,7 +3,7 @@ from pathlib import Path
 from common import normalize_place, clean_text, ensure_dir
 
 
-RAW_DIR = Path("raw_data/Reddit_comment")
+RAW_DIR = Path("/data/raw_data/Reddit_comment")
 OUT_DIR = Path("data/interim")
 OUT = OUT_DIR / "reddit_clean.csv"
 
