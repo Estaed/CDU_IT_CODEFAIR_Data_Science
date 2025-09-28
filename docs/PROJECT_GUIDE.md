@@ -1,177 +1,111 @@
-# Dark Sky Explorer NT — Project Guide
+# NT Stargazing — NLP Tier List Project Guide
 
-Links: [CDU Data Science Challenge](https://itcodefair.cdu.edu.au/data-science-challenge) • [Open‑Meteo API Docs](https://open-meteo.com/en/docs)
+Links: [CDU Data Science Challenge](https://itcodefair.cdu.edu.au/data-science-challenge)
 
 ## 1) Project Overview
-- Objective: Analyze weather + tourist reviews to rank NT stargazing sites and provide 5–7 actionable recommendations with indicative economic impact.
-- Deliverables: Clean dataset, Python notebook(s), slide deck, 10‑minute presentation.
-- Tech: Python; Jupyter; Open‑Meteo for weather; reviews from TripAdvisor, Google Maps, blogs, Reddit.
+- Objective: Build a domain‑specific recommendation assistant for Australian travel destinations. Predict 1–5 star sentiment for each review, build a retrieval system over reviews, and deliver recommendations via a RAG pipeline restricted to places in the dataset.
+- Deliverables: Unified reviews CSV, reviews enriched with `stars`, fine‑tuned star classifier, FAISS index + retrieval, RAG recommendation service/notebook, evaluation metrics/figures, short slide deck.
+- Tech: Python, Jupyter, pandas, PyTorch, Hugging Face Transformers, Sentence‑Transformers, FAISS, scikit‑learn, matplotlib/seaborn.
 
-## 2) Success Criteria
-- ≥500 total reviews (≥80/site)
-- ≥3 figures (sentiment by site, top pain points, Stargazing Score ranking)
-- 5–7 recommendations; clear, actionable, and grounded in findings
-
-## 3) Team & Workflow
-- Solo developer: You own all coding (collection, cleaning, EDA, modeling, visuals)
-- Teammates: Support data sourcing/validation and presentation
-- GitHub only; shared drive and Kanban not used
-
-## 4) ## Selected Dark-Sky Sites (6 locations)
-
-1. Uluru-Kata Tjuta National Park — (-25.3444, 131.0369): Remote, iconic landscape, minimal light pollution
-2. Alice Springs Desert Park — (-23.6980, 133.8807): Central hub, education facilities, strong accessibility
-3. Devils Marbles (Karlu Karlu) — (-20.7539, 134.2692): Exceptional darkness, unique geology, camping
-4. Kakadu NP – Gunlom Falls Lookout — (-13.4269, 132.4117): UNESCO site, elevated views, cultural heritage
-5. West MacDonnell – Ormiston Gorge — (-23.6386, 132.7289): Dark skies, natural amphitheater, camping
-6. Nitmiluk (Katherine Gorge) — (-14.2531, 132.4236): Remote Top End site, cultural tourism opportunities
-
-Rationales: remote/dark skies, iconic landscapes, accessibility, cultural value.
-
-## 5) Data Sources & Access
-- Weather: Open‑Meteo Archive API (no key). Example (Uluru):
-  ```
-  https://archive-api.open-meteo.com/v1/archive?latitude=-25.3444&longitude=131.0369&start_date=2015-01-01&end_date=2024-12-31&hourly=temperature_2m,cloud_cover,precipitation
-  ```
-  Typical hourly vars: temperature_2m, cloud_cover, precipitation
-- Reviews: TripAdvisor, Google Maps, travel blogs, Reddit
-  - Reddit subreddits: r/australia, r/travel, r/AustraliaTravel, r/Darwin, r/northernterritory, r/camping, r/Astronomy
-  - Query strings: "<place> night sky", "<place> stars", "<place> stargazing", "Milky Way"
-- Light pollution (VIIRS): Deferred to Phase 5
-
-.env (optional, for future Reddit):
-```
-REDDIT_CLIENT_ID=
-REDDIT_CLIENT_SECRET=
-REDDIT_USER_AGENT=
-```
-
-## 6) Data Templates (CSV)
-- Reviews (required):
+## 2) Unified Output (Single CSV)
+- Required columns (exact):
   ```csv
-  platform,location_name,review_id,review_text,rating,review_date,reviewer_home,url
+  source,place,comment
   ```
-  Optional: `source_id,collected_at,lang`
-- Weather:
-  ```csv
-  location,date,cloud_cover_percent,temperature_night,rainfall_mm,wind_speed
-  ```
-- Unified schema (target):
-  ```csv
-  location,lat,lon,date,sky_brightness,cloud_cover,temperature,sentiment_score,review_count,avg_rating
-  ```
+- Location: `data/reviews_unified.csv`
 
-## 7) Data Dictionary (to be finalized later)
-- Reviews: types for each column, dedup by `platform+review_id`
-- Weather: units km/h
-- Light pollution: `viirs_radiance`, `sky_brightness_index` (0–100 inverse)
+## 3) Success Criteria
+- Unified CSV created with only the three required columns (done)
+- Cleaned comments (deduped, non‑empty, sensible text length) (done)
+- Automatic 1–5 `stars` labels generated and saved to an enriched CSV
+- Fine‑tuned star classifier trained with Accuracy/F1 and confusion matrix reported
+- Retrieval returns relevant reviews for diverse queries (spot‑checked and measured)
+- RAG recommendations grounded in retrieved reviews and restricted to dataset places
+- 8–10 slides summarizing method, results, and takeaways
 
-## 8) Phases & Tasks (condensed)
-- Phase 2 — Data Collection (Active)
-  - Weather: Pull Open‑Meteo for all 6 sites; save CSV
-  - Reviews: Collect TripAdvisor/Google/Reddit/blogs to reach ≥500 reviews, standardize fields
-  - Note: VIIRS deferred
-- Phase 3 — Cleaning & Preprocessing
-  - Standardize dates/units; drop empty reviews; dedup
-  - Sentiment (TextBlob/VADER), Topic Modeling (LDA)
-  - Build unified dataset
-- Phase 4 — EDA
-  - Weather seasonality charts; sentiment distributions; word clouds; pain points
-- Phase 5 — Modeling & Indices
-  - Weather Index (cloud cover 60% + temp 40%)
-  - Darkness Index (from VIIRS; deferred)
-  - Sentiment Index (% positive)
-  - Stargazing Score = 0.4*Weather + 0.3*Darkness + 0.3*Sentiment
-  - Normalize to 0–100; rank sites
-- Phase 6 — Recommendations & Economic Value
-  - 5–7 actions; estimate impact = visitors × nights × spend
-- Phase 7 — Presentation
-  - 8–10 slides; visuals first; timed 10 min
+## 4) Data Sources (already collected)
+- Three raw sources live under `raw_data/` (e.g., TripAdvisor/Google/Reddit/blogs). Use only text that complies with ToS and attribution where required.
 
-## 9) Reviews SOP (quick)
-- Platforms: TripAdvisor, Google Maps, Reddit, blogs
-- De‑dup: `platform+review_id`
-- Date range: last 3 years preferred
-- Ethics: obey ToS; attribute URLs; do not scrape where prohibited
+## 5) Phases (simple & actionable)
 
-## Reviews Collection Strategy (simple & ToS‑safe)
-- Reddit (API via PRAW)
-  - Use environment variables: `REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET`, `REDDIT_USER_AGENT`
-  - Search subreddits: r/australia, r/travel, r/AustraliaTravel, r/Darwin, r/northernterritory, r/camping, r/Astronomy
-  - Queries: `<place> night sky`, `<place> stars`, `<place> stargazing`, `Milky Way`
-  - CSV mapping:
-    - platform=Reddit, location_name, review_id=(post_id/comment_id), review_text=(title+selftext or comment), rating=, review_date, reviewer_home=, url=permalink, source_id=subreddit, collected_at, lang
-  - Output: `raw_data/reviews/reddit_<slug>.csv`
-- TripAdvisor + Google Maps
-  - Start with manual CSV exports to avoid ToS issues; include source URLs
-  - Fields must match the Reviews template; add optional `source_id,collected_at,lang`
-  - Optional later: Selenium (slow, respectful delays) or Google Places API (limited reviews)
-  - Output: `raw_data/reviews/{tripadvisor|google}_<slug>.csv`
-- Blogs
-  - Manual extraction with citation; store URLs in `url` column
-- Merge step
-  - Script plan: `scripts/reviews_merge.py` to load all platform CSVs, normalize columns, dedup on `platform+review_id`, write `raw_data/reviews/reviews_all.csv`
-- Targets
-  - ≥500 total reviews; aim ≥80 per site; focus on last 3 years
+### Phase 1 — Scope & Inventory (Completed)
+- Tasks
+  - List raw files and locate columns for website/source, place, and comment text.
+  - Define canonical place names (e.g., "Uluru-Kata Tjuta", "Alice Springs Desert Park").
+  - Draft mapping from each source's columns → `source,place,comment`.
 
-## 10) Notes & Links
-- Repo: https://github.com/Estaed/CDU_IT_CODEFAIR_Data_Science
-- Challenge brief: https://itcodefair.cdu.edu.au/data-science-challenge
-- Weather API: https://open-meteo.com/en/docs
+### Phase 2 — Cleaning & Unification (Completed)
+- Scripts (three independent cleaners)
+  - `scripts/clean_tripadvisor.py` → outputs `data/interim/tripadvisor_clean.csv`
+  - `scripts/clean_google_maps.py` → outputs `data/interim/google_clean.csv`
+  - `scripts/clean_reddit.py` → outputs `data/interim/reddit_clean.csv`
+- Schema rules (strict)
+  - Keep only: `source,place,comment`.
+  - `source` values:
+    - TripAdvisor → `TripAdvisor`
+    - Google Maps → `GoogleMaps`
+    - Reddit → `Reddit/<subreddit>` (e.g., `Reddit/r/australia`)
+  - `place`: normalized to canonical names.
+  - `comment`: plain text; strip HTML/emoji/control chars; normalize whitespace.
+- Cleaning tasks per script
+  - Load raw → select/rename → clean text → drop empty/very short → save interim CSV.
+- Merge & dedup
+  - Concatenate interim CSVs, standardize `place` via canonical map, deduplicate on `source+place+comment`.
+  - Save unified file: `data/processed/reviews_unified.csv`.
+  - Run order: TripAdvisor → Google Maps → Reddit → Merge.
 
----
+### Phase 3 — Automatic Star Label Generation (1–5)
+- Model: `nlptown/bert-base-multilingual-uncased-sentiment` (or similar) to infer 1–5 stars per `comment`.
+- Output: add integer `stars ∈ {1,2,3,4,5}` to each row; save as `data/processed/reviews_with_stars.csv`.
+- Implementation notes:
+  - Truncate/segment long comments to model max tokens; average or max‑pool predictions if segmented.
+  - Batch inference; prefer GPU if available; set random seed and log model version.
+  - Keep only rows with valid predictions; preserve `source,place,comment`.
 
-## Charter (Merged)
-- Success Criteria: ≥500 total reviews; ≥3 figures; 5–7 recommendations; 10‑minute presentation
-- Key Deliverables: Clean dataset + dictionary; Python notebook; slide deck; live pitch
-- Tooling & Links: GitHub only (shared drive/Kanban not used)
-- Data Schema (core):
-  - Reviews: platform, location_name, review_id, review_text, rating, review_date, reviewer_home, url
-  - Unified: location, lat, lon, date, sky_brightness, cloud_cover, temperature, sentiment_score
-- Timeline Overview: Days 1–2 (data), 3–4 (EDA), 5 (model), 6 (slides), 7 (rehearsal)
+### Phase 4 — Fine‑Tuning for Star Prediction
+- Task: multi‑class classification over 5 classes using DistilBERT/RoBERTa.
+- Data: `reviews_with_stars.csv` with stratified train/val/test split.
+- Metrics: Accuracy, macro F1; export confusion matrix to `visualizations/star_confusion_matrix.png`.
+- Artifacts: save model + tokenizer to `models/star_classifier/`; log training config and metrics.
 
-## Phases — AI‑Ready Playbook (Detailed)
+### Phase 5 — Retrieval System (Semantic Search)
+- Embeddings: generate with Sentence‑Transformers (e.g., `all-MiniLM-L6-v2`).
+- Index: build FAISS index; store vectors + metadata (id, `place`, `source`, `stars`).
+- Artifacts: `indices/review_faiss/` (index files) and `data/processed/review_metadata.parquet`.
+- Functionality: given a user query, return top‑k most relevant reviews.
 
-### Phase 2 — Data Collection
-- Weather (Open‑Meteo)
-  - Task: For each site, fetch hourly `temperature_2m,cloud_cover,precipitation` (2015‑01‑01 → 2024‑12‑31)
-  - Output CSV per site: `raw_data/weather/<slug>_weather.csv`
-  - Helper (suggested): `scripts/fetch_open_meteo.py` with `fetch_site_weather(lat, lon, start_date, end_date) -> DataFrame`
-- Reviews (TripAdvisor, Google, Reddit, Blogs)
-  - Create schema CSV: `raw_data/reviews/reviews_schema.csv` (header only from Reviews template)
-  - Collect links per site; export CSVs per platform: `raw_data/reviews/<platform>_<slug>.csv`
-  - Ensure columns match template; add optional `source_id,collected_at,lang`
-  - Deduplicate on `platform+review_id`
+### Phase 6 — RAG Recommendations & Reporting
+- LLM: lightweight model (e.g., Mistral/DistilGPT‑2) fine‑tuned on review‑style recommendations.
+- System prompt: "You are a travel recommendation assistant. You can only suggest places from the dataset and must base your answers on provided reviews."
+- Pipeline: user query → retrieve reviews (Phase 5) → format context → generate recommendation constrained to dataset places.
+- Outputs:
+  - Example recommendations and qualitative checks saved under `docs/examples/`.
+  - Figures: star distribution per place, top places by average stars, retrieval quality snapshots → `visualizations/`.
+  - Slide deck: problem, data, star labeling, classifier metrics, retrieval, RAG results, insights.
 
-### Phase 3 — Cleaning & Preprocessing
-- Weather
-  - Convert timestamps → date; aggregate nightly/cloud cover % by date; unify columns
-- Reviews
-  - Drop empty reviews; normalize ratings to 1–5; parse dates to ISO
-  - Sentiment (VADER/TextBlob): add `sentiment_score` (‑1..1 or 0..1), and label (pos/neu/neg)
-  - Topic modeling (LDA): extract top keywords per site
-- Unified Dataset
-  - Join weather + reviews by site/date; final columns: `location,lat,lon,date,cloud_cover,temperature,sentiment_score`
-  - Save to `data/processed/unified.csv`
+## 6) SOP & Quality
+- Ethics/ToS: obey platform rules; attribute URLs if used; avoid prohibited scraping.
+- Reproducibility: notebooks to cover key steps:
+  - `notebooks/generate_stars.ipynb` (Phase 3)
+  - `notebooks/train_star_classifier.ipynb` (Phase 4)
+  - `notebooks/build_retrieval_index.ipynb` (Phase 5)
+  - `notebooks/rag_recommender.ipynb` (Phase 6)
+- Versioning: keep data writes in `data/processed/`; do not overwrite raw files.
 
-### Phase 4 — EDA
-- Weather: histograms (cloud cover % by season), line charts (seasonal trends)
-- Reviews: sentiment distribution per site; word clouds (pos vs neg); top pain points
-- Maps (optional later): site scatter map
-- Save figures to `visualizations/` with descriptive filenames
+## 7) File Map (minimal)
+- Input: `raw_data/` (three sources)
+- Interim: `data/interim/` (per‑source cleaned CSVs)
+- Unified: `data/processed/reviews_unified.csv`
+- Enriched: `data/processed/reviews_with_stars.csv`
+- Retrieval index: `indices/review_faiss/`, metadata `data/processed/review_metadata.parquet`
+- Models: `models/star_classifier/`
+- Notebooks: `notebooks/generate_stars.ipynb`, `notebooks/train_star_classifier.ipynb`, `notebooks/build_retrieval_index.ipynb`, `notebooks/rag_recommender.ipynb`
+- Figures: `visualizations/`
+- Scripts: `scripts/clean_tripadvisor.py`, `scripts/clean_google_maps.py`, `scripts/clean_reddit.py`
 
-### Phase 5 — Modeling & Indices
-- Weather Index = 0.6×(inverse cloud cover) + 0.4×(temperature comfort)
-- Darkness Index = inverse of VIIRS radiance (deferred to later)
-- Sentiment Index = % positive reviews per site
-- Stargazing Score = 0.4×Weather + 0.3×Darkness + 0.3×Sentiment → normalize 0–100
-- Output: `data/processed/stargazing_scores.csv` + ranking plot
-
-### Phase 6 — Recommendations & Economic Value
-- Derive 5–7 actions tied to findings (e.g., promote top sites in dry season)
-- Economic estimate = Visitors uplift × Nights × Spend/night (document assumptions)
-- Create 1–2 slides summarizing impact ranges
-
-### Phase 7 — Presentation
-- 8–10 slides: background, data sources, cleaning, EDA highlights, score results, recommendations, economic value
-- Keep text minimal; emphasize charts, maps, rankings; rehearse to 10 min
+## 8) Quick Implementation Notes
+- Star inference: batch with `transformers` pipeline; cap length to model max tokens; prefer GPU if available.
+- Fine‑tuning: use stratified split; early stopping; report Accuracy and macro F1; export confusion matrix.
+- Retrieval: normalize/clean queries; store `place` and `source` in metadata; return citations with each result.
+- Guardrails: only recommend places present in `reviews_unified.csv`; cite supporting reviews.
+- Place merging: maintain canonical mapping from Phase 2 for consistency across all phases.
