@@ -3,8 +3,8 @@ from pathlib import Path
 from common import normalize_place, clean_text, ensure_dir
 
 
-RAW_DIR = Path("/data/raw_data/googlemaps")
-OUT_DIR = Path("data/interim")
+RAW_DIR = Path("data/raw_data/googlemaps")
+OUT_DIR = Path("data/generate_stars/interim")
 OUT = OUT_DIR / "google_clean.csv"
 
 

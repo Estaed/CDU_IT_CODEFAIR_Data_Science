@@ -3,8 +3,8 @@ from pathlib import Path
 from common import normalize_place, clean_text, ensure_dir
 
 
-RAW = Path("/data/raw_data/australian_dark_sky_reviews_final_clean_FIXED2.csv")
-OUT_DIR = Path("data/interim")
+RAW = Path("data/raw_data/australian_dark_sky_reviews_final_clean_FIXED2.csv")
+OUT_DIR = Path("data/generate_stars/interim")
 OUT = OUT_DIR / "tripadvisor_clean.csv"
 
 

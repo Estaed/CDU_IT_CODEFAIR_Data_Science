@@ -3,8 +3,8 @@ from pathlib import Path
 from common import ensure_dir
 
 
-INTERIM = Path("data/interim")
-OUT_DIR = Path("data/processed")
+INTERIM = Path("data/generate_stars/interim")
+OUT_DIR = Path("data/generate_stars/processed")
 OUT = OUT_DIR / "reviews_unified.csv"
 
 
