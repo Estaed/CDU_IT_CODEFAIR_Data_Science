@@ -59,4 +59,12 @@ presentations/*.pdf
 
 # Keep folder structure intact
 Kriol to English.ipynb
-models/rag_llm
+models/rag_llm/checkpoint-4500
+models/rag_llm/checkpoint-9000
+models/rag_llm/checkpoint-13500
+
+# Exclude entire final folder (use ZIP instead)
+models/rag_llm/final
+
+# Allow final model ZIP file (compressed version)
+!models/rag_llm/final.zip

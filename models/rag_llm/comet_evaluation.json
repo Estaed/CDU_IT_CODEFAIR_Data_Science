@@ -1,0 +1,27 @@
+{
+  "test_data": [
+    {
+      "query": "best waterfalls and swimming spots",
+      "reference": "Nitmiluk (Katherine Gorge) offers great waterfalls and swimming holes. Kakadu National Park has Gunlom Falls with refreshing pools perfect for swimming. West MacDonnell National Park has natural waterholes for swimming."
+    },
+    {
+      "query": "family-friendly walks and sunset views",
+      "reference": "Devils Marbles (Karlu Karlu) provides beautiful sunset views and family-friendly walks. West MacDonnell National Park offers scenic walks suitable for families with spectacular sunset views."
+    },
+    {
+      "query": "places that are not too hot",
+      "reference": "Nitmiluk (Katherine Gorge) offers cooler temperatures and peaceful natural settings. West MacDonnell National Park provides pleasant conditions for outdoor activities."
+    }
+  ],
+  "model_responses": [
+    "- **Nitmiluk (Katherine Gorge)**\r\n- **Kakadu**",
+    "- **West MacDonnell \u2013 Ormiston Gorge**  \n  **Sunset views**  \n\n- **Tjoritja / West MacDonnell National Park**  \n  **Walks & Ceatures**  \n  - **Devils Marbles (Karlu Karlu)**  \n    **Family-friendly walk** with suitable walking trails that bring out the best sunset views. The ease of access and the fact that round the corner that makes it perfect for families with kids. The walks start in a picnic area and go out to the swimming holes along the rocks. This is the real reason to visit this spot. The walks are not only for the kids but also for the adults to enjoy the view. \ud83c\udf1f\n\n- **Uluru-Kata Tjuta**  \n  **Camp**  \n  - Perfect place for sunset and sunrise. The cultural centre is very good. The climbing track is fine. The water park is fantastic! Don\u2019t forget the viewing areas with lights",
+    "Based on reviews and stars, places that are not too hot are:\n\n- **Nitmiluk (Katherine Gorge)**"
+  ],
+  "comet_scores": [
+    0.44186803698539734,
+    0.697804868221283,
+    0.521361768245697
+  ],
+  "average_score": 0.5536782244841257
+}

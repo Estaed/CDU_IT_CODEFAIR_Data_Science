@@ -1,0 +1,8 @@
+{
+  "model": "sentence-transformers/all-MiniLM-L6-v2",
+  "embedding_dim": 384,
+  "index_type": "IndexFlatIP",
+  "index_path": "c:\\Users\\TARIK\\Desktop\\Charles Darwin University\\4 - Year 1 - Semester 2\\IT CODE FAIR\\Data Science Challenge\\models\\rag_llm\\step_0\\reviews_all-MiniLM-L6-v2.index",
+  "metadata_path": "c:\\Users\\TARIK\\Desktop\\Charles Darwin University\\4 - Year 1 - Semester 2\\IT CODE FAIR\\Data Science Challenge\\data\\rag_llm\\processed\\review_metadata.parquet",
+  "num_vectors": 9532
+}

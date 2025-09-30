@@ -32,3 +32,4 @@ tqdm>=4.66.0
 peft==0.11.1
 hf_transfer
 comet
+py7zr
