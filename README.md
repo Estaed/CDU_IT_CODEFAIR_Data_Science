@@ -86,6 +86,27 @@ This project implements a comprehensive data science solution for Australian dar
 - **Multi-Platform Integration**: Leverages data from all review sources
 - **Real-time Retrieval**: Dynamic context selection based on queries
 
+### Phase 3: Model Testing (Two-Stage Inference)
+
+**File Used**: `notebooks/test_rag_llm.ipynb`
+
+**What changed**:
+- Testing is now separated from the fine-tuning notebook.
+- The testing notebook implements a two-stage inference flow:
+  1) Stage 1: Retrieval + concise planning/thinking, and shows the exact context used.
+  2) Stage 2: Consumes Stage 1 planning/context to generate a clean, final answer only.
+
+**Why**:
+- This ensures transparency (you see what the model retrieved and how it planned) while keeping the final answer concise and user-friendly.
+
+**Notes**:
+- No need to pass "/think" or "/no_think" flags. The notebook always performs Stage 1 planning internally and then produces a Stage 2 answer.
+
+#### Two-Stage Inference (How it works)
+- Stage 1 (Plan + Context): Retrieves k similar reviews, builds a compact context summary, and lets the model think in a concise planning step. The notebook displays both the planning notes (🧠 THINKING) and the exact context used (🔎 CONTEXT USED).
+- Stage 2 (Answer Only): The model then takes the planning notes + context as input and generates a short, user-facing answer that starts with "Answer:". No internal reasoning is shown here.
+- Interactive Chat: The chat in Step 4 also uses this two-stage flow by default and shows planning/context followed by a clean final answer.
+
 ## Results and Performance
 
 **Model Capabilities**:
@@ -132,9 +153,13 @@ This project implements a comprehensive data science solution for Australian dar
 ## Usage
 
 1. **Data Processing**: Run notebooks in `notebooks/` directory
-2. **Model Training**: Execute `finetune_rag_llm.ipynb`
-3. **Model Loading**: The notebook automatically extracts model files from ZIP
-4. **Interactive Testing**: Use the built-in chat interface
+2. **Model Training**: Execute `notebooks/finetune_rag_llm.ipynb`
+3. **Model Testing**: Open `notebooks/test_rag_llm.ipynb` and run:
+   - Step 0: Load FAISS index + metadata
+   - Step 1: Load the fine-tuned model from `models/rag_llm/final` (auto-extracts from `final.zip` if needed)
+   - Step 3: Quick tests (prints 🧠 THINKING, 🔎 CONTEXT USED, and final 💬 ANSWER)
+   - Step 4: Interactive chat — two-stage by default; no flags needed
+4. **Evaluation (optional)**: Run the COMET evaluation cell in `notebooks/test_rag_llm.ipynb` to score responses.
 
 ## Key Achievements
 

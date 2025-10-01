@@ -90,6 +90,7 @@ Links: [CDU Data Science Challenge](https://itcodefair.cdu.edu.au/data-science-c
   - `notebooks/train_star_classifier.ipynb` (Phase 4)
   - `notebooks/build_retrieval_index.ipynb` (Phase 5)
   - `notebooks/rag_recommender.ipynb` (Phase 6)
+  - `notebooks/test_rag_llm.ipynb` (Testing) — uses two-stage inference: Stage 1 planning with visible context, then Stage 2 answer-only output. No need for /think flags.
 - Versioning: keep data writes in `data/processed/`; do not overwrite raw files.
 
 ## 7) File Map (minimal)

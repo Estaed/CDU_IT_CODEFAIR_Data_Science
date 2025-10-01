@@ -1,0 +1,91 @@
+{
+  "evaluation_metadata": {
+    "total_queries": 10,
+    "average_score": 0.6401251465082168,
+    "min_score": 0.4323602020740509,
+    "max_score": 0.8412176966667175,
+    "evaluation_date": "2025-10-01 23:15:18.924634",
+    "place_normalization_applied": true,
+    "deterministic": true,
+    "num_beams": 4,
+    "repetition_penalty": 1.05
+  },
+  "test_data": [
+    {
+      "query": "best waterfalls and swimming spots",
+      "reference": "Nitmiluk (Katherine Gorge) offers great waterfalls and swimming holes. Kakadu has Gunlom Falls with refreshing pools perfect for swimming. West MacDonnell National Park has natural waterholes for swimming."
+    },
+    {
+      "query": "family-friendly walks and sunset views",
+      "reference": "Devils Marbles (Karlu Karlu) provides beautiful sunset views and family-friendly walks. West MacDonnell National Park offers scenic walks suitable for families with spectacular sunset views."
+    },
+    {
+      "query": "places that are not too hot",
+      "reference": "Nitmiluk (Katherine Gorge) offers cooler temperatures and peaceful natural settings. West MacDonnell National Park provides pleasant conditions for outdoor activities."
+    },
+    {
+      "query": "cultural experiences and wildlife viewing",
+      "reference": "Kakadu offers rich cultural experiences with Aboriginal rock art and diverse wildlife. Uluru-Kata Tjuta provides cultural significance and unique wildlife viewing opportunities."
+    },
+    {
+      "query": "scenic drives and photography spots",
+      "reference": "West MacDonnell National Park offers spectacular scenic drives with excellent photography opportunities. Devils Marbles provides unique rock formations perfect for photography."
+    },
+    {
+      "query": "quiet camping and stargazing",
+      "reference": "West MacDonnell National Park offers quiet camping spots with excellent stargazing opportunities. Devils Marbles provides peaceful camping with clear night skies."
+    },
+    {
+      "query": "easy hikes for beginners",
+      "reference": "Nitmiluk (Katherine Gorge) offers easy walking trails suitable for beginners. West MacDonnell National Park has gentle walks perfect for those new to hiking."
+    },
+    {
+      "query": "places with good facilities and amenities",
+      "reference": "Kakadu has well-developed facilities and visitor centers. Uluru-Kata Tjuta offers comprehensive amenities for tourists."
+    },
+    {
+      "query": "water activities and boat tours",
+      "reference": "Nitmiluk (Katherine Gorge) offers excellent boat tours and water activities. Kakadu provides various water-based experiences and boat cruises."
+    },
+    {
+      "query": "places to visit during wet season",
+      "reference": "Kakadu is particularly beautiful during the wet season with flowing waterfalls. Nitmiluk (Katherine Gorge) offers different experiences during wet season with higher water levels."
+    }
+  ],
+  "model_responses": [
+    "Answer: Kakadu and West MacDonnell National Park are excellent waterfalls and swimming spots. Nitmiluk (Katherine Gorge) also offers a beautiful swimming experience.",
+    "- Visit Uluru-Kata Tjuta for unforgettable walks and sunset views. - Explore Devils Marbles (Karlu Karlu) for a relaxing walk with beautiful views.",
+    "Answer: West MacDonnell National Park and Kakadu are not too hot places to stay.",
+    "Answer: Alice Springs Desert Park and Alice Springs National Park offer unique cultural experiences and stunning wildlife.",
+    "photography spots along scenic drives: Uluru-Kata Tjuta, Nitmiluk (Katherine Gorge)",
+    "- Uluru-Kata Tjuta camping grounds offer a unique environment for both camping and stargazing. - West MacDonnell National Park is ideal for getting natural views, sunset, and sunrise views as the sun rises/setting.",
+    "- Alice Springs Desert Park | Kakadu",
+    "- Nitmiluk (Katherine Gorge) \u2b50 4.8 | West MacDonnell National Park \u2b50 4.9 | Alice Springs Desert Park \u2b50 4.7",
+    "Water activities and boat tours can be enjoyed in places such as Nitmiluk (Katherine Gorge) or Nitmiluk (Katherine Gorge). These locations offer swimming experiences, boat cruises, and scenic views.",
+    "Answer: Visit Kakadu and Nitmiluk National Park during the wet season. Other places to visit include Nitmiluk (Katherine Gorge) during the relevant period."
+  ],
+  "comet_scores": [
+    0.8412176966667175,
+    0.721055269241333,
+    0.5855011343955994,
+    0.6495210528373718,
+    0.5413101315498352,
+    0.6763828992843628,
+    0.4323602020740509,
+    0.5259532332420349,
+    0.7631712555885315,
+    0.6647785902023315
+  ],
+  "length_words": [
+    22,
+    23,
+    14,
+    17,
+    10,
+    33,
+    7,
+    20,
+    29,
+    23
+  ]
+}
